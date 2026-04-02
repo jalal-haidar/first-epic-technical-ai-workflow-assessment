@@ -24,11 +24,13 @@ export default function UserDirectoryPage() {
         {!loading && !error && (
           <>
             <UserList users={users} />
-            <Pagination
-              page={page}
-              totalPages={totalPages}
-              onPageChange={setPage}
-            />
+            {totalPages > 0 && (
+              <Pagination
+                page={page}
+                totalPages={totalPages}
+                onPageChange={setPage}
+              />
+            )}
           </>
         )}
       </main>

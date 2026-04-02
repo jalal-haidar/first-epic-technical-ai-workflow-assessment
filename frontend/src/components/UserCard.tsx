@@ -21,7 +21,10 @@ export function UserCard({ user }: UserCardProps) {
       <div className={styles.body}>
         <p className={styles.role}>Role: {user.role}</p>
         <p className={styles.date}>
-          Last Seen: {new Date(user.lastLogin).toLocaleDateString()}
+          Last Seen:{' '}
+          {isNaN(Date.parse(user.lastLogin))
+            ? 'Unknown'
+            : new Date(user.lastLogin).toLocaleDateString()}
         </p>
       </div>
     </div>

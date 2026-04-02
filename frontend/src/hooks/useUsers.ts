@@ -81,6 +81,13 @@ export function useUsers() {
     return () => controller.abort();
   }, [page, debouncedSearch]);
 
+  const safeSetPage = useCallback(
+    (p: number) => {
+      setPage(Math.max(1, Math.min(p, totalPages || 1)));
+    },
+    [totalPages],
+  );
+
   return {
     users,
     loading,
@@ -88,7 +95,7 @@ export function useUsers() {
     page,
     totalPages,
     search,
-    setPage,
+    setPage: safeSetPage,
     setSearch: updateSearch,
   };
 }

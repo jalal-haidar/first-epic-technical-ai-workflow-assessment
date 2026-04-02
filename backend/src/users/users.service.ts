@@ -16,8 +16,9 @@ export class UsersService {
   ): PaginatedResponse<User> {
     let filtered = this.users;
 
-    if (search) {
-      const term = search.toLowerCase();
+    const trimmed = search?.trim();
+    if (trimmed) {
+      const term = trimmed.toLowerCase();
       filtered = this.users.filter((user) =>
         user.name.toLowerCase().includes(term),
       );
@@ -25,13 +26,14 @@ export class UsersService {
 
     const total = filtered.length;
     const totalPages = Math.ceil(total / limit);
-    const offset = (page - 1) * limit;
+    const safePage = Math.min(page, totalPages || 1);
+    const offset = (safePage - 1) * limit;
     const data = filtered.slice(offset, offset + limit);
 
     return {
       success: true,
       count: total,
-      page,
+      page: safePage,
       limit,
       totalPages,
       data,
